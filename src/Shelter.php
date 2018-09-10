@@ -2,14 +2,17 @@
 
 namespace App;
 
-use App\Base\PetRecord;
-use App\Exceptions\InvalidPetTypeException;
-use App\Interfaces\PetInterface;
+use App\Base\{
+    Pet,
+    PetRecord
+};
 use App\Pets\{
     Cat,
     Doggy,
     Tortoise
 };
+use App\Exceptions\InvalidPetTypeException;
+use App\Interfaces\PetInterface;
 
 /**
  * Class Shelter
@@ -20,7 +23,7 @@ class Shelter
     /** @var PetRecord[] */
     private $petsRecords = [];
 
-    protected const ALLOWED_PETS_TYPES = [
+    private const ALLOWED_PETS_TYPES = [
         Doggy::class,
         Cat::class,
         Tortoise::class
@@ -42,17 +45,44 @@ class Shelter
             }
         }
 
+        return $this->sortByPetsName($pets);
+    }
+
+    public function getOlderPet(): PetInterface
+    {
+        $pets = $this->sortByPushedAt();
+        return array_shift($pets)->getInstance();
+    }
+
+    public function getOlderPetByType(string $type): ?PetInterface
+    {
+        $pets = $this->sortByPushedAt();
+
+        foreach ($pets as $pet) {
+            if ($pet->getType() === $type) {
+                return $pet->getInstance();
+            }
+        }
+    }
+
+    private function sortByPushedAt(): array
+    {
+        $pets = $this->petsRecords;
+
+        usort($pets, function (PetRecord $a, PetRecord $b) {
+            return ($a->getPuttedAt() < $b->getPuttedAt()) ? -1 : 1;
+        });
+
         return $pets;
     }
 
-    public function getOlderPet(string $type): PetInterface
+    protected function sortByPetsName(array $pets): array
     {
-        
-    }
+        usort($pets, function (Pet $a, Pet $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
 
-    public function getOlderPetByType(string $type): PetInterface
-    {
-
+        return $pets;
     }
 
     /**

@@ -8,9 +8,9 @@ use App\Interfaces\PetInterface;
  * Class PetRecord - Pet instance with meta-data
  * @package App\Base
  */
-final class PetRecord
+class PetRecord
 {
-    private $pushed_at;
+    private $putted_at;
 
     private $type;
 
@@ -19,7 +19,7 @@ final class PetRecord
 
     public function __construct(PetInterface $pet)
     {
-        $this->pushed_at = time();
+        $this->putted_at = time();
         $this->type = $pet->getType();
         $this->instance = $pet;
     }
@@ -29,9 +29,9 @@ final class PetRecord
         return new static($pet);
     }
 
-    public function getPushedAt(): int
+    public function getPuttedAt(): int
     {
-        return $this->pushed_at;
+        return $this->putted_at;
     }
 
     public function getType(): string
