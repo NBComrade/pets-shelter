@@ -1,0 +1,21 @@
+{
+    "name": "nediakbogdan/pets-shelter",
+    "description": "Test Object Oriented Design project - Pets Shelter",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "NBComrade",
+            "email": "nediak.bogdan@pdffiller.team"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "phpunit/phpunit": "7.*"
+    },
+    "autoload": {
+        "psr-4" : {
+            "App\\" : "src/"
+        }
+    }
+}
