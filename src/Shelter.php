@@ -29,12 +29,19 @@ class Shelter
         Tortoise::class
     ];
 
+    /**
+     * @param PetInterface $pet
+     */
     public function put(PetInterface $pet): void
     {
         $this->ensurePetType($pet->getType());
         $this->petsRecords[] = PetRecord::create($pet);
     }
 
+    /**
+     * @param string $type
+     * @return array
+     */
     public function getPetsByType(string $type): array
     {
         $pets = [];
@@ -48,12 +55,19 @@ class Shelter
         return $this->sortByPetsName($pets);
     }
 
+    /**
+     * @return PetInterface
+     */
     public function getOlderPet(): PetInterface
     {
         $pets = $this->sortByPushedAt();
         return array_shift($pets)->getInstance();
     }
 
+    /**
+     * @param string $type
+     * @return PetInterface|null
+     */
     public function getOlderPetByType(string $type): ?PetInterface
     {
         $pets = $this->sortByPushedAt();
@@ -76,7 +90,7 @@ class Shelter
         return $pets;
     }
 
-    protected function sortByPetsName(array $pets): array
+    private function sortByPetsName(array $pets): array
     {
         usort($pets, function (Pet $a, Pet $b) {
             return strcmp($a->getName(), $b->getName());

@@ -19,7 +19,7 @@ class PetRecord
 
     public function __construct(PetInterface $pet)
     {
-        $this->putted_at = time();
+        $this->putted_at = time(); //may be microtime(true) or event date() in real life
         $this->type = $pet->getType();
         $this->instance = $pet;
     }
